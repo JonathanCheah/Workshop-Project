@@ -1,12 +1,9 @@
-<<<<<<< HEAD
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { DataService } from 'src/app/services/data/data.service';
-=======
-import { Component, OnInit } from '@angular/core';
+
 import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
-import { Label } from 'ng2-charts';
->>>>>>> dfeda356e57c8bc6a5e1e04dfe24f84ab07073d5
+import { Color, Label } from 'ng2-charts';
 
 @Component({
   selector: 'app-bar-chart',
@@ -14,61 +11,69 @@ import { Label } from 'ng2-charts';
   styleUrls: ['./bar-chart.component.scss']
 })
 export class BarChartComponent implements OnInit {
-<<<<<<< HEAD
-  private chartContainer: ElementRef;
-  public data = [
-    { "Framework": "Vue", "Stars": "166443", "Released": "2014" },
-    { "Framework": "React", "Stars": "150793", "Released": "2013" },
-    { "Framework": "Angular", "Stars": "62342", "Released": "2016" },
-    { "Framework": "Backbone", "Stars": "27647", "Released": "2010" },
-    { "Framework": "Ember", "Stars": "21471", "Released": "2011" },
-  ];
-  dataByCountry: any;
-  private svg;
-  private margin = 50;
-  private width = 1080 - (this.margin * 2);
-  private height = 400 - (this.margin * 2);
-  constructor(private oip: DataService) { }
+  public firstCountryName: string = "";
+  public barChartColors: Color[] = [];
+  public barChartSecondColors: Color[] = [];
 
-  ngOnInit() {
-
-    this.getdata();
-=======
   public barChartOptions: ChartOptions = {
     responsive: true,
-    // We use these empty structures as placeholders for dynamic theming.
     scales: { xAxes: [{}], yAxes: [{}] },
   };
-  public barChartLabels: Label[] = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
+  public barChartLabels: Label[] = [];
   public barChartType: ChartType = 'bar';
   public barChartLegend = true;
 
-  public barChartData: ChartDataSets[] = [
-    { data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A' },
-    { data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B' }
-  ];
-  constructor() { }
+  public barChartData: ChartDataSets[] = [];
+  public barChartSecondData: ChartDataSets[] = [];
+  
+  constructor(private oip:DataService) {
+    // let btn = <HTMLInputElement>document.getElementById("checkBtn");
+    // btn.addEventListener("click", (e:Event) => this.checkBtnOnClicked());
+  }
+  // checkBtnOnClicked(){
+  //   var inputValue = (<HTMLInputElement>document.getElementById("txtBox")).value;
+  //   this.getdata(inputValue);
+  // }
 
   ngOnInit() {
-
->>>>>>> dfeda356e57c8bc6a5e1e04dfe24f84ab07073d5
-
+    this.firstCountryName = "MY";
+    this.getdata("");
+    this.getdata(this.firstCountryName);
   }
 
+  getdata(chartType: string) {
+    this.oip.getCountryResult(chartType).then(data => {
 
-<<<<<<< HEAD
-  getdata() {
-    this.oip.getCountryResult().then(res => {
+      var jsonStr = JSON.stringify(data);
+      var jsonObj = JSON.parse(jsonStr);
 
-      console.log(res);
+    this.barChartLabels = ['Deaths', 'Recovered', 'Active Cases'];
+    // this.barChartLabels = [JSON.stringify(jsonObj[0]["created"])];
+
+    var timeStamp = "";
+
+    if (chartType == ""){
+      this.barChartColors = [{ backgroundColor: 'cyan' }];
+
+      timeStamp = 'Global Stats - Last Updated: ' + JSON.stringify(jsonObj["created"]).substring(1, 11);
+
+      this.barChartData = [
+        { data: [jsonObj["totalDeaths"], jsonObj["totalRecovered"], jsonObj["totalActiveCases"]], label: timeStamp }];
+    }
+    else{
+      this.barChartSecondColors = [{ backgroundColor: 'teal' }];
+      var countryStr = JSON.stringify(jsonObj[0]["country"]);
+      timeStamp = countryStr.substring(1, countryStr.length - 1) + ' Stats - Last Updated: ' + JSON.stringify(jsonObj[0]["lastUpdated"]).substring(1, 11);
+
+      this.barChartSecondData = [
+      { data: [jsonObj[0]["totalDeaths"], jsonObj[0]["totalRecovered"], jsonObj[0]["activeCases"]], label: timeStamp }];
+    }
+
+    }).catch(error => {
+      console.log(error);
     })
-      .catch(error => {
-
-      })
   }
 
-
-=======
   public chartClicked({ event, active }: { event: MouseEvent, active: {}[] }): void {
     console.log(event, active);
   }
@@ -77,8 +82,13 @@ export class BarChartComponent implements OnInit {
     console.log(event, active);
   }
 
-  public randomize(): void {
-    this.barChartType = this.barChartType === 'bar' ? 'line' : 'bar';
+  
+  public checkBtnOnClicked(event:any):void
+  {
+    this.firstCountryName = ((<HTMLInputElement>document.getElementById("txtBox") as HTMLInputElement).value).toUpperCase().trim();
+    if(this.firstCountryName != ""){
+      this.getdata(this.firstCountryName);
+    }
   }
->>>>>>> dfeda356e57c8bc6a5e1e04dfe24f84ab07073d5
+
 }

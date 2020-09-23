@@ -1,0 +1,24 @@
+<div id="bar2" align="right" style="padding-top: 300px;">
+    <div class="chart-container" style="position: inherit; width:45%; height: 80%; float: left;">
+        <canvas baseChart 
+        [data]="pieChartSecondData" 
+        [labels]="pieChartSecondLabels" 
+        [colors]="pieChartSecondColors"
+        [chartType]="pieChartType"
+        [options]="pieChartOptions"
+        [plugins]="pieChartPlugins"
+        [legend]="pieChartLegend"></canvas>
+    </div>
+
+    <div class="chart-container" style="position:inherit; width:45%; height: 80%; float: right;">
+        <canvas baseChart 
+        [data]="pieChartData" 
+        [labels]="pieChartLabels" 
+        [colors]="pieChartColors"
+        [chartType]="pieChartType"
+        [options]="pieChartOptions"
+        [plugins]="pieChartPlugins"
+        [legend]="pieChartLegend"></canvas>
+    </div>
+
+</div>

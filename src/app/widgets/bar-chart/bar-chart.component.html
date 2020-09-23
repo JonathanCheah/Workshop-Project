@@ -1,9 +1,37 @@
-<<<<<<< HEAD
-<figure id="bar"></figure>
-=======
-<div style="display: block">
-  <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions"
-    [legend]="barChartLegend" [chartType]="barChartType" (chartHover)="chartHovered($event)"
-    (chartClick)="chartClicked($event)"></canvas>
+<div style="padding-top: 30px;" align="center">
+  <p>Enter <a href="https://countrycode.org/" target="_blank">ISO Country Code</a>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+  <input type="text" value="" id="txtBox" placeholder="Eg: JP, US, BR,..." > <button type="submit" id="checkBtn" (click)="checkBtnOnClicked($event)">Check</button>
 </div>
->>>>>>> dfeda356e57c8bc6a5e1e04dfe24f84ab07073d5
+
+<figure id="bar" style="padding-bottom: 30px;"></figure>
+<div class="chart-container" style="position: relative; width:45%; height: 80%; float: left;">
+  <canvas baseChart 
+  [datasets]="barChartData"
+  [labels]="barChartLabels"
+  [options]="barChartOptions"
+  [legend]="barChartLegend"
+  [chartType]="barChartType"
+  [colors]="barChartColors"
+  (chartHover)="chartHovered($event)"
+  (chartClick)="chartClicked($event)"></canvas>
+</div>  
+
+<div class="chart-container" style="position: relative; width:45%; height: 80%; float: right;">
+  <canvas baseChart 
+  [datasets]="barChartSecondData"
+  [labels]="barChartLabels"
+  [options]="barChartOptions"
+  [legend]="barChartLegend"
+  [chartType]="barChartType"
+  [colors]="barChartSecondColors"
+  (chartHover)="chartHovered($event)"
+  (chartClick)="chartClicked($event)"></canvas>
+</div>   
+
+
+
+<div class="chart-container" style="width:100%; height: 80%;">
+    <app-pie-chart></app-pie-chart>
+</div>
+
+
